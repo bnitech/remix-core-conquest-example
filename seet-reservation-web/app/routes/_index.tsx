@@ -1,17 +1,23 @@
-import type { V2_MetaFunction } from '@remix-run/node';
+import type { LinksFunction } from '@remix-run/node';
+import Stylesheet from '~/styles/test.css';
 
-export const meta: V2_MetaFunction = () => [
-  { title: 'New Remix App' },
-  { name: 'description', content: 'Welcome to Remix!' },
+export const links: LinksFunction = () => [
+  { rel: 'icon', href: '/favicon.ico', type: 'image/png' },
+  {
+    rel: 'stylesheet',
+    href: 'https://example-css-six.vercel.app/example.css',
+  },
+  { rel: 'stylesheet', href: Stylesheet },
+    {rel: 'prefetch', href: '/img/cat.png'}
 ];
 
 export default function Index() {
   return (
-      <div>
-        <h1>Index</h1>
-        <p>Some content</p>
-        <input type="text" />
-        안녕하세요
-      </div>
+    <div>
+      <h1>Index</h1>
+      <p>Some content</p>
+      <input type="text" />
+      안녕하세요
+    </div>
   );
 }
