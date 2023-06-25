@@ -1,5 +1,5 @@
-import { json, LoaderFunction } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
+import {json, LoaderFunction, ActionFunction, redirect} from '@remix-run/node';
+import { Form } from '@remix-run/react';
 
 type TLoaderData = {
   status: number;
@@ -14,9 +14,9 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   const url = new URL(request.url);
   const query = url.searchParams.get('query');
 
-  console.log('Cookie', cookie);
-  console.log('URL', url);
-  console.log('Query', query);
+  // console.log('Cookie', cookie);
+  // console.log('URL', url);
+  // console.log('Query', query);
 
   return json<TLoaderData>({
     status: 200,
@@ -24,7 +24,21 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   });
 };
 
+export const action: ActionFunction = async ({ request, params }) => {
+  console.log('Action 실행됨');
+  const body = await request.formData();
+  const name = body.get('name');
+  console.log(name);
+  return redirect(`/loader-and-action`);
+};
+
 export default function LoaderAndAction() {
-  const initalData = useLoaderData<TLoaderData>();
-  return <div>{JSON.stringify(initalData)}</div>;
+  return (
+    <div>
+      <Form method="post">
+        <input type="text" name="name" />
+        <button type="submit">전송</button>
+      </Form>
+    </div>
+  );
 }
