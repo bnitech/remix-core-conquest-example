@@ -1,20 +1,32 @@
 import {
   Link,
   Outlet,
+  useLoaderData,
   useLocation,
   useNavigate,
   useParams,
 } from '@remix-run/react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { json, LoaderFunction } from '@remix-run/node';
+import { getPostTitleByBoardId, TPostTitleOnly } from '~/models/post.service';
+
+interface ILoaderData {
+  posts: TPostTitleOnly[];
+}
 
 export const loader: LoaderFunction = async ({ request, params }) => {
   const boardId = params.boardId ?? 'NO Board ID';
 
-  console.log('게시판 ID: ', boardId);
+  if (boardId === 'NO Board ID') {
+    return json<ILoaderData>({
+      posts: [],
+    });
+  }
 
-  return json({
-    status: 200,
+  const posts = await getPostTitleByBoardId(parseInt(boardId, 10));
+
+  return json<ILoaderData>({
+    posts: posts.data || [],
   });
 };
 
@@ -23,8 +35,15 @@ export default function BoardId() {
   const { boardId } = params;
 
   const navigate = useNavigate();
-
   const location = useLocation();
+
+  const loaderData = useLoaderData<ILoaderData>();
+  const [posts, setPosts] = useState<TPostTitleOnly[]>(loaderData.posts);
+
+  useEffect(() => {
+    setPosts(loaderData.posts);
+  }, [loaderData.posts]);
+
   useEffect(() => {
     console.log(location);
   }, [location]);
@@ -32,12 +51,13 @@ export default function BoardId() {
   return (
     <div style={{ border: '3px solid green' }}>
       <h1>게시판 ID: {boardId}</h1>
-      {boardId === '1' && (
+      {posts.map((post) => (
         <>
-          <Link to="1">글 1</Link> <Link to="2">글 2</Link>{' '}
-          <button onClick={() => navigate('3')}> 글 3</button>
+          <Link to={`${post.id}`} prefetch="intent">
+            {post.title}
+          </Link>
         </>
-      )}
+      ))}
       <Outlet />
     </div>
   );
