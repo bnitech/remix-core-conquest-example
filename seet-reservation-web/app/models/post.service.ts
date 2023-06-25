@@ -13,24 +13,23 @@ export type TPost = {
 };
 
 export async function getPostByBoardId(board_id: number) {
-  return await supabase
+  return supabase
     .from('post')
     .select(`id, title, content, board_id`)
     .eq('board_id', board_id);
 }
 
 export async function getPostTitleByBoardId(board_id: number) {
-  return await supabase
-    .from('post')
-    .select(`id, title`)
-    .eq('board_id', board_id);
+  return supabase.from('post').select(`id, title`).eq('board_id', board_id);
 }
 
-export async function getPosts(id: number) {
-  return await supabase
+export async function getPost(id: number) {
+  return supabase
     .from('post')
     .select(`id, title, content, board_id`)
-    .eq('id', id);
+    .eq('id', id)
+    .limit(1)
+    .single();
 }
 
 export async function createPost(
@@ -38,7 +37,7 @@ export async function createPost(
   content: string,
   board_id: number,
 ) {
-  return await supabase.from('post').insert({ title, content, board_id });
+  return supabase.from('post').insert({ title, content, board_id });
 }
 
 export async function updatePost(
@@ -47,12 +46,12 @@ export async function updatePost(
   content: string,
   board_id: number,
 ) {
-  return await supabase
+  return supabase
     .from('post')
     .update({ title, content, board_id })
     .eq('id', id);
 }
 
 export async function deletePost(id: number) {
-  return await supabase.from('post').delete().eq('id', id);
+  return supabase.from('post').delete().eq('id', id);
 }
