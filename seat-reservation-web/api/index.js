@@ -236,7 +236,7 @@ function App() {
   }, this);
 }
 
-// app/routes/_index.tsx
+// app/routes/index.tsx
 var index_exports = {};
 __export(index_exports, {
   default: () => Index,
@@ -249,7 +249,7 @@ var import_jsx_dev_runtime3 = require("react/jsx-dev-runtime"), meta = () => [
 function Index() {
   return /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("div", { style: { fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }, children: [
     /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("h1", { children: "Welcome to Remix" }, void 0, !1, {
-      fileName: "app/routes/_index.tsx",
+      fileName: "app/routes/index.tsx",
       lineNumber: 11,
       columnNumber: 7
     }, this),
@@ -265,13 +265,13 @@ function Index() {
         void 0,
         !1,
         {
-          fileName: "app/routes/_index.tsx",
+          fileName: "app/routes/index.tsx",
           lineNumber: 14,
           columnNumber: 11
         },
         this
       ) }, void 0, !1, {
-        fileName: "app/routes/_index.tsx",
+        fileName: "app/routes/index.tsx",
         lineNumber: 13,
         columnNumber: 9
       }, this),
@@ -286,32 +286,32 @@ function Index() {
         void 0,
         !1,
         {
-          fileName: "app/routes/_index.tsx",
+          fileName: "app/routes/index.tsx",
           lineNumber: 23,
           columnNumber: 11
         },
         this
       ) }, void 0, !1, {
-        fileName: "app/routes/_index.tsx",
+        fileName: "app/routes/index.tsx",
         lineNumber: 22,
         columnNumber: 9
       }, this),
       /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("li", { children: /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("a", { target: "_blank", href: "https://remix.run/docs", rel: "noreferrer", children: "Remix Docs" }, void 0, !1, {
-        fileName: "app/routes/_index.tsx",
+        fileName: "app/routes/index.tsx",
         lineNumber: 32,
         columnNumber: 11
       }, this) }, void 0, !1, {
-        fileName: "app/routes/_index.tsx",
+        fileName: "app/routes/index.tsx",
         lineNumber: 31,
         columnNumber: 9
       }, this)
     ] }, void 0, !0, {
-      fileName: "app/routes/_index.tsx",
+      fileName: "app/routes/index.tsx",
       lineNumber: 12,
       columnNumber: 7
     }, this)
   ] }, void 0, !0, {
-    fileName: "app/routes/_index.tsx",
+    fileName: "app/routes/index.tsx",
     lineNumber: 10,
     columnNumber: 5
   }, this);
