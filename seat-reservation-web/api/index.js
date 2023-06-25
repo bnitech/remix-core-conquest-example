@@ -34,7 +34,7 @@ __export(assets_manifest_exports, {
 });
 var assets_manifest_default, init_assets_manifest = __esm({
   "server-assets-manifest:@remix-run/dev/assets-manifest"() {
-    assets_manifest_default = { entry: { module: "/build/entry.client-56FPPZII.js", imports: ["/build/_shared/chunk-75BPNEC7.js", "/build/_shared/chunk-NLQNPAAV.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-NIGKTXWV.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/_index": { id: "routes/_index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/_index-FNICSVN5.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, cssBundleHref: void 0, version: "cd278cb7", hmr: void 0, url: "/build/manifest-CD278CB7.js" };
+    assets_manifest_default = { entry: { module: "/build/entry.client-X4SB4GVL.js", imports: ["/build/_shared/chunk-4NANP4HE.js", "/build/_shared/chunk-NLQNPAAV.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-F2Q5VF2A.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/index": { id: "routes/index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/nested_index-DISTEFIG.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/loader-and-action/index": { id: "routes/loader-and-action/index", parentId: "root", path: "loader-and-action", index: !0, caseSensitive: void 0, module: "/build/routes/loader-and-action/nested_index-KRROYUYU.js", imports: void 0, hasAction: !0, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/nested": { id: "routes/nested", parentId: "root", path: "nested", index: void 0, caseSensitive: void 0, module: "/build/routes/nested-74H5WJYB.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/nested/depth-1": { id: "routes/nested/depth-1", parentId: "routes/nested", path: "depth-1", index: void 0, caseSensitive: void 0, module: "/build/routes/nested/depth-1-3SRUNKT3.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 } }, cssBundleHref: void 0, version: "fe9b972a", hmr: void 0, url: "/build/manifest-FE9B972A.js" };
   }
 });
 
@@ -236,90 +236,173 @@ function App() {
   }, this);
 }
 
-// app/routes/index.tsx
-var index_exports = {};
-__export(index_exports, {
-  default: () => Index,
-  meta: () => meta
+// app/routes/loader-and-action/nested._index.tsx
+var loader_and_action_exports = {};
+__export(loader_and_action_exports, {
+  action: () => action,
+  default: () => LoaderAndAction,
+  loader: () => loader
 });
-var import_jsx_dev_runtime3 = require("react/jsx-dev-runtime"), meta = () => [
-  { title: "New Remix App" },
-  { name: "description", content: "Welcome to Remix!" }
-];
-function Index() {
-  return /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("div", { style: { fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }, children: [
-    /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("h1", { children: "Welcome to Remix" }, void 0, !1, {
-      fileName: "app/routes/index.tsx",
-      lineNumber: 11,
+var import_node2 = require("@remix-run/node"), import_react3 = require("@remix-run/react"), import_jsx_dev_runtime3 = require("react/jsx-dev-runtime"), loader = async ({ request, params }) => {
+  console.log("\uD574\uB2F9 console.log \uB294 \uD130\uBBF8\uB110 (Remix Server) \uC5D0\uC11C\uB9CC \uB098\uC635\uB2C8\uB2E4.");
+  let cookie = request.headers.get("Cookie"), query = new URL(request.url).searchParams.get("query");
+  return (0, import_node2.json)({
+    status: 200,
+    message: "Hello World"
+  });
+}, action = async ({ request, params }) => {
+  console.log("Action \uC2E4\uD589\uB428");
+  let name = (await request.formData()).get("name");
+  return console.log(name), (0, import_node2.redirect)("/loader-and-action");
+};
+function LoaderAndAction() {
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("div", { children: /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)(import_react3.Form, { method: "post", children: [
+    /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("input", { type: "text", name: "name" }, void 0, !1, {
+      fileName: "app/routes/loader-and-action/nested._index.tsx",
+      lineNumber: 39,
+      columnNumber: 9
+    }, this),
+    /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("button", { type: "submit", children: "\uC804\uC1A1" }, void 0, !1, {
+      fileName: "app/routes/loader-and-action/nested._index.tsx",
+      lineNumber: 40,
+      columnNumber: 9
+    }, this)
+  ] }, void 0, !0, {
+    fileName: "app/routes/loader-and-action/nested._index.tsx",
+    lineNumber: 38,
+    columnNumber: 7
+  }, this) }, void 0, !1, {
+    fileName: "app/routes/loader-and-action/nested._index.tsx",
+    lineNumber: 37,
+    columnNumber: 5
+  }, this);
+}
+
+// app/routes/nested.tsx
+var nested_exports = {};
+__export(nested_exports, {
+  default: () => Nested
+});
+var import_react4 = require("@remix-run/react"), import_jsx_dev_runtime4 = require("react/jsx-dev-runtime");
+function Nested() {
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime4.jsxDEV)("div", { style: { border: "3px solid red" }, children: [
+    /* @__PURE__ */ (0, import_jsx_dev_runtime4.jsxDEV)("h1", { children: "Nested" }, void 0, !1, {
+      fileName: "app/routes/nested.tsx",
+      lineNumber: 6,
       columnNumber: 7
     }, this),
-    /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("ul", { children: [
-      /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("li", { children: /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)(
-        "a",
-        {
-          target: "_blank",
-          href: "https://remix.run/tutorials/blog",
-          rel: "noreferrer",
-          children: "15m Quickstart Blog Tutorial"
-        },
-        void 0,
-        !1,
-        {
-          fileName: "app/routes/index.tsx",
-          lineNumber: 14,
-          columnNumber: 11
-        },
-        this
-      ) }, void 0, !1, {
-        fileName: "app/routes/index.tsx",
-        lineNumber: 13,
-        columnNumber: 9
-      }, this),
-      /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("li", { children: /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)(
-        "a",
-        {
-          target: "_blank",
-          href: "https://remix.run/tutorials/jokes",
-          rel: "noreferrer",
-          children: "Deep Dive Jokes App Tutorial"
-        },
-        void 0,
-        !1,
-        {
-          fileName: "app/routes/index.tsx",
-          lineNumber: 23,
-          columnNumber: 11
-        },
-        this
-      ) }, void 0, !1, {
-        fileName: "app/routes/index.tsx",
-        lineNumber: 22,
-        columnNumber: 9
-      }, this),
-      /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("li", { children: /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("a", { target: "_blank", href: "https://remix.run/docs", rel: "noreferrer", children: "Remix Docs" }, void 0, !1, {
-        fileName: "app/routes/index.tsx",
-        lineNumber: 32,
-        columnNumber: 11
-      }, this) }, void 0, !1, {
-        fileName: "app/routes/index.tsx",
-        lineNumber: 31,
-        columnNumber: 9
-      }, this)
-    ] }, void 0, !0, {
-      fileName: "app/routes/index.tsx",
-      lineNumber: 12,
+    /* @__PURE__ */ (0, import_jsx_dev_runtime4.jsxDEV)(import_react4.Outlet, {}, void 0, !1, {
+      fileName: "app/routes/nested.tsx",
+      lineNumber: 7,
       columnNumber: 7
     }, this)
   ] }, void 0, !0, {
-    fileName: "app/routes/index.tsx",
-    lineNumber: 10,
+    fileName: "app/routes/nested.tsx",
+    lineNumber: 5,
+    columnNumber: 5
+  }, this);
+}
+
+// app/routes/nested/nested.depth-1.depth-2.tsx
+var depth_1_exports = {};
+__export(depth_1_exports, {
+  default: () => Depth1
+});
+var import_react5 = require("@remix-run/react"), import_jsx_dev_runtime5 = require("react/jsx-dev-runtime");
+function Depth1() {
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime5.jsxDEV)("div", { style: { border: "3px solid green" }, children: [
+    /* @__PURE__ */ (0, import_jsx_dev_runtime5.jsxDEV)("h1", { children: "Depth 1" }, void 0, !1, {
+      fileName: "app/routes/nested/nested.depth-1.depth-2.tsx",
+      lineNumber: 6,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ (0, import_jsx_dev_runtime5.jsxDEV)(import_react5.Outlet, {}, void 0, !1, {
+      fileName: "app/routes/nested/nested.depth-1.depth-2.tsx",
+      lineNumber: 7,
+      columnNumber: 7
+    }, this)
+  ] }, void 0, !0, {
+    fileName: "app/routes/nested/nested.depth-1.depth-2.tsx",
+    lineNumber: 5,
+    columnNumber: 5
+  }, this);
+}
+
+// app/routes/nested._index.tsx
+var routes_exports = {};
+__export(routes_exports, {
+  default: () => Index,
+  headers: () => headers,
+  links: () => links2,
+  meta: () => meta
+});
+
+// app/styles/test.css
+var test_default = "/build/_assets/test-4NML6E2Z.css";
+
+// app/routes/nested._index.tsx
+var import_jsx_dev_runtime6 = require("react/jsx-dev-runtime"), links2 = () => [
+  { rel: "icon", href: "/favicon.ico", type: "image/png" },
+  {
+    rel: "stylesheet",
+    href: "https://example-css-six.vercel.app/example.css"
+  },
+  { rel: "stylesheet", href: test_default },
+  { rel: "prefetch", href: "/img/cat.png" }
+], meta = () => [
+  { title: "\uB098\uB294 \uC81C\uBAA9\uC785\uB2C8\uB2E4." },
+  {
+    property: "og:title",
+    content: "OG TITLE \uC785\uB2C8\uB2E4"
+  },
+  {
+    name: "description",
+    content: "OG DESCRIPTION \uC785\uB2C8\uB2E4"
+  },
+  {
+    name: "viewport",
+    content: "width=device-width,initial-scale=1"
+  },
+  {
+    name: "refresh",
+    content: "test",
+    httpEquiv: "refresh"
+  }
+], headers = ({
+  actionHeaders,
+  loaderHeaders,
+  parentHeaders
+}) => ({
+  "Cache-Control": "max-age=369, s-maxage=3636"
+});
+function Index() {
+  return /* @__PURE__ */ (0, import_jsx_dev_runtime6.jsxDEV)("div", { children: [
+    /* @__PURE__ */ (0, import_jsx_dev_runtime6.jsxDEV)("h1", { children: "_index" }, void 0, !1, {
+      fileName: "app/routes/nested._index.tsx",
+      lineNumber: 47,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ (0, import_jsx_dev_runtime6.jsxDEV)("p", { children: "Some content" }, void 0, !1, {
+      fileName: "app/routes/nested._index.tsx",
+      lineNumber: 48,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ (0, import_jsx_dev_runtime6.jsxDEV)("input", { type: "text" }, void 0, !1, {
+      fileName: "app/routes/nested._index.tsx",
+      lineNumber: 49,
+      columnNumber: 7
+    }, this),
+    "\uC548\uB155\uD558\uC138\uC694"
+  ] }, void 0, !0, {
+    fileName: "app/routes/nested._index.tsx",
+    lineNumber: 46,
     columnNumber: 5
   }, this);
 }
 
 // server-entry-module:@remix-run/dev/server-build
 init_assets_manifest();
-var assetsBuildDirectory = "public/build", future = { unstable_dev: !1, unstable_postcss: !1, unstable_tailwind: !1, v2_errorBoundary: !0, v2_headers: !0, v2_meta: !0, v2_normalizeFormMethod: !0, v2_routeConvention: !0 }, publicPath = "/build/", entry = { module: entry_server_exports }, routes = {
+var assetsBuildDirectory = "public/build", future = { unstable_dev: !1, unstable_postcss: !1, unstable_tailwind: !1, v2_errorBoundary: !1, v2_headers: !1, v2_meta: !1, v2_normalizeFormMethod: !1, v2_routeConvention: !1 }, publicPath = "/build/", entry = { module: entry_server_exports }, routes = {
   root: {
     id: "root",
     parentId: void 0,
@@ -328,13 +411,37 @@ var assetsBuildDirectory = "public/build", future = { unstable_dev: !1, unstable
     caseSensitive: void 0,
     module: root_exports
   },
+  "routes/loader-and-action/index": {
+    id: "routes/loader-and-action/index",
+    parentId: "root",
+    path: "loader-and-action",
+    index: !0,
+    caseSensitive: void 0,
+    module: loader_and_action_exports
+  },
+  "routes/nested": {
+    id: "routes/nested",
+    parentId: "root",
+    path: "nested",
+    index: void 0,
+    caseSensitive: void 0,
+    module: nested_exports
+  },
+  "routes/nested/depth-1": {
+    id: "routes/nested/depth-1",
+    parentId: "/nested",
+    path: "depth-1",
+    index: void 0,
+    caseSensitive: void 0,
+    module: depth_1_exports
+  },
   "routes/_index": {
     id: "routes/_index",
     parentId: "root",
     path: void 0,
     index: !0,
     caseSensitive: void 0,
-    module: index_exports
+    module: routes_exports
   }
 };
 // Annotate the CommonJS export names for ESM import in node:
@@ -360,4 +467,4 @@ var assetsBuildDirectory = "public/build", future = { unstable_dev: !1, unstable
    * @license MIT
    *)
 */
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=nested_index.js.map
