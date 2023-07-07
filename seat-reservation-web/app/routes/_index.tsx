@@ -1,6 +1,6 @@
 import type { V2_MetaFunction } from "@remix-run/node";
-import {ActionIcon, Button} from "@mantine/core";
-import {IconAlarm} from "@tabler/icons-react";
+import { Box, Button, Divider, Title } from "@mantine/core";
+import { Link } from "@remix-run/react";
 
 export const meta: V2_MetaFunction = () => {
   return [
@@ -11,37 +11,17 @@ export const meta: V2_MetaFunction = () => {
 
 export default function Index() {
   return (
-    <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
-      <h1>Welcome to Fastcampus</h1>
-      <Button>버튼입니다.</Button>
-      <ActionIcon>
-        <IconAlarm/>
-      </ActionIcon>
-      <ul>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/blog"
-            rel="noreferrer"
-          >
-            15m Quickstart Blog Tutorial
-          </a>
-        </li>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/jokes"
-            rel="noreferrer"
-          >
-            Deep Dive Jokes App Tutorial
-          </a>
-        </li>
-        <li>
-          <a target="_blank" href="https://remix.run/docs" rel="noreferrer">
-            Remix Docs
-          </a>
-        </li>
-      </ul>
-    </div>
+    <Box sx={{ padding: "45px" }}>
+      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Title>나만의 테크 블로그</Title>
+        <Link to="/posts/create">
+          <Button variant="light" color="red">
+            글쓰기
+          </Button>
+        </Link>
+      </Box>
+      <Divider mt={20} mb={15} />
+      PostList와 PostItem 컴포넌트가 들어갈 자리입니다.
+    </Box>
   );
 }
