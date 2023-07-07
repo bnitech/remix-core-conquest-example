@@ -36,22 +36,10 @@
     "@types/qs": "^6.9.7",
     "@types/react": "^18.0.35",
     "@types/react-dom": "^18.0.11",
-    "eslint": "^8.44.0",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-plugin-import": "^2.27.5",
-    "eslint-plugin-jsx-a11y": "^6.7.1",
-    "eslint-plugin-react": "^7.32.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint": "^8.38.0",
     "typescript": "^5.0.4"
   },
   "engines": {
     "node": ">=14.0.0"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "airbnb"
-    ]
   }
 }
-

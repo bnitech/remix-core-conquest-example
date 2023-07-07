@@ -1,6 +1,6 @@
 import type { V2_MetaFunction } from "@remix-run/node";
-import { ActionIcon, Button } from "@mantine/core";
-import { IconAlarm } from "@tabler/icons-react";
+import {ActionIcon, Button} from "@mantine/core";
+import {IconAlarm} from "@tabler/icons-react";
 
 export const meta: V2_MetaFunction = () => {
   return [
@@ -15,7 +15,7 @@ export default function Index() {
       <h1>Welcome to Fastcampus</h1>
       <Button>버튼입니다.</Button>
       <ActionIcon>
-        <IconAlarm />
+        <IconAlarm/>
       </ActionIcon>
       <ul>
         <li>
