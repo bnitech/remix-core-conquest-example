@@ -60,7 +60,10 @@ export default function PostId() {
         <Space h="lg" />
         <CommentUpload />
         <List>
-          <CommentItem comment={{ writer: "작성자", created_at:'2023-07-08', content:"댓글 내용" }} />
+          <CommentItem comment={{ writer: "작성자", created_at:'2023-07-08', content:"댓글 내용 1" }} />
+            <CommentItem comment={{ writer: "작성자", created_at:'2023-07-08', content:"댓글 내용 2" }} />
+            <CommentItem comment={{ writer: "작성자", created_at:'2023-07-08', content:"댓글 내용 3" }} />
+            <CommentItem comment={{ writer: "작성자", created_at:'2023-07-08', content:"댓글 내용 4" }} />
         </List>
       </Box>
     </Box>
