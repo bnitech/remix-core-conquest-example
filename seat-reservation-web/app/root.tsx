@@ -8,14 +8,14 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-import {createEmotionCache, MantineProvider} from "@mantine/core";
-import {StylesPlaceholder} from "@mantine/remix";
+import { createEmotionCache, MantineProvider } from "@mantine/core";
+import { StylesPlaceholder } from "@mantine/remix";
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
 ];
 
-createEmotionCache({ key: 'mantine' });
+createEmotionCache({ key: "mantine" });
 
 export default function App() {
   return (
