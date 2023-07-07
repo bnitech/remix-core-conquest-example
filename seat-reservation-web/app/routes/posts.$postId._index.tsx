@@ -16,6 +16,8 @@ import {
 import { Link } from "@remix-run/react";
 import PostView from "~/components/Post/Viewer";
 import CommentUpload from "~/components/Post/Comment/Upload";
+import List from "~/components/List";
+import CommentItem from "~/components/Post/Comment/item";
 
 export default function PostId() {
   return (
@@ -57,6 +59,9 @@ export default function PostId() {
         <Text>댓글 2개</Text>
         <Space h="lg" />
         <CommentUpload />
+        <List>
+          <CommentItem comment={{ writer: "작성자", created_at:'2023-07-08', content:"댓글 내용" }} />
+        </List>
       </Box>
     </Box>
   );
