@@ -1,12 +1,10 @@
 import {
   ActionIcon,
   Box,
-  Button,
   Divider,
   Menu,
-  PasswordInput,
   Space,
-  TextInput,
+  Text,
   Title,
 } from "@mantine/core";
 import {
@@ -17,6 +15,7 @@ import {
 } from "@tabler/icons-react";
 import { Link } from "@remix-run/react";
 import PostView from "~/components/Post/Viewer";
+import CommentUpload from "~/components/Post/Comment/Upload";
 
 export default function PostId() {
   return (
@@ -52,7 +51,13 @@ export default function PostId() {
         </Menu>
       </Box>
       <Divider mt={20} mb={15} />
-      <PostView content="안녕하세요!" />글 댓글이 들어갈 자리입니다.
+      <PostView content="안녕하세요!" />
+      <Divider mt={20} mb={20} />
+      <Box>
+        <Text>댓글 2개</Text>
+        <Space h="lg" />
+        <CommentUpload />
+      </Box>
     </Box>
   );
 }
