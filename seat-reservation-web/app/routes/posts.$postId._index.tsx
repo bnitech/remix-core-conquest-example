@@ -16,6 +16,7 @@ import {
   IconTrash,
 } from "@tabler/icons-react";
 import { Link } from "@remix-run/react";
+import PostView from "~/components/Post/Viewer";
 
 export default function PostId() {
   return (
@@ -50,8 +51,8 @@ export default function PostId() {
           </Menu.Dropdown>
         </Menu>
       </Box>
-      <Divider mt={20} mb={15} />글 내용이 들어갈 자리입니다. 글 댓글이 들어갈
-      자리입니다.
+      <Divider mt={20} mb={15} />
+      <PostView content="안녕하세요!" />글 댓글이 들어갈 자리입니다.
     </Box>
   );
 }
