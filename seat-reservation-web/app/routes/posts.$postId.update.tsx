@@ -10,6 +10,7 @@ import {
 } from "@mantine/core";
 import { IconChevronLeft } from "@tabler/icons-react";
 import { Link } from "@remix-run/react";
+import PostUpload from "~/components/Post/Upload";
 
 export default function PostsUpdate() {
     return (
@@ -25,7 +26,8 @@ export default function PostsUpdate() {
             </Box>
             <Divider mt={20} mb={20} />
             <TextInput placeholder="제목" variant={"filled"} size={"xl"} />
-            <Space h="xl" />글 입력란 자리입니다.
+            <Space h="xl" />
+            <PostUpload/>
             <Box sx={{ display: "flex", justifyContent: "end" }}>
                 <PasswordInput
                     sx={{ minWidth: "200px" }}
