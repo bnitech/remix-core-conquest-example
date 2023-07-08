@@ -13,13 +13,37 @@ import {
   IconPencil,
   IconTrash,
 } from "@tabler/icons-react";
-import { Link } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 import PostView from "~/components/Post/Viewer";
 import CommentUpload from "~/components/Post/Comment/Upload";
 import List from "~/components/List";
 import CommentItem from "~/components/Post/Comment/item";
+import { getPost, TPost } from "~/models/post.service";
+import { json, LoaderFunction, redirect } from "@remix-run/node";
+import { useEffect, useState } from "react";
+
+interface ILoaderData {
+  post: TPost;
+}
+
+export const loader: LoaderFunction = async ({ request, params }) => {
+  const postId = params.postId as string;
+  const getPostResponse = await getPost(parseInt(postId));
+  if (getPostResponse !== null) {
+    return json<ILoaderData>({ post: getPostResponse.data as TPost });
+  } else {
+    return redirect("/");
+  }
+};
 
 export default function PostId() {
+  const loaderData = useLoaderData<ILoaderData>();
+  const [post, setPost] = useState<TPost>(loaderData.post);
+  useEffect(() => {
+    if (post) {
+      setPost(loaderData.post);
+    }
+  }, [loaderData.post]);
   return (
     <Box sx={{ padding: "45px" }}>
       <Box
@@ -36,7 +60,7 @@ export default function PostId() {
             </ActionIcon>
           </Link>
           <Space w="xs" />
-          <Title>글 제목</Title>
+          <Title>{post?.title ?? "(제목 없음)"}</Title>
         </Box>
         <Menu shadow="md" width={200} position={"left-start"}>
           <Menu.Target>
@@ -53,17 +77,41 @@ export default function PostId() {
         </Menu>
       </Box>
       <Divider mt={20} mb={15} />
-      <PostView content="안녕하세요!" />
+      <PostView content={post?.content ?? "(글 내용 없음)"} />
       <Divider mt={20} mb={20} />
       <Box>
         <Text>댓글 2개</Text>
         <Space h="lg" />
         <CommentUpload />
         <List>
-          <CommentItem comment={{ writer: "작성자", created_at:'2023-07-08', content:"댓글 내용 1" }} />
-            <CommentItem comment={{ writer: "작성자", created_at:'2023-07-08', content:"댓글 내용 2" }} />
-            <CommentItem comment={{ writer: "작성자", created_at:'2023-07-08', content:"댓글 내용 3" }} />
-            <CommentItem comment={{ writer: "작성자", created_at:'2023-07-08', content:"댓글 내용 4" }} />
+          <CommentItem
+            comment={{
+              writer: "작성자",
+              created_at: "2023-07-08",
+              content: "댓글 내용 1",
+            }}
+          />
+          <CommentItem
+            comment={{
+              writer: "작성자",
+              created_at: "2023-07-08",
+              content: "댓글 내용 2",
+            }}
+          />
+          <CommentItem
+            comment={{
+              writer: "작성자",
+              created_at: "2023-07-08",
+              content: "댓글 내용 3",
+            }}
+          />
+          <CommentItem
+            comment={{
+              writer: "작성자",
+              created_at: "2023-07-08",
+              content: "댓글 내용 4",
+            }}
+          />
         </List>
       </Box>
     </Box>
