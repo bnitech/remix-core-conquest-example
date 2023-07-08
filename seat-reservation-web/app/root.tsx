@@ -10,6 +10,7 @@ import {
 } from "@remix-run/react";
 import { createEmotionCache, MantineProvider } from "@mantine/core";
 import { StylesPlaceholder } from "@mantine/remix";
+import { Notifications } from "@mantine/notifications";
 
 export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
@@ -29,7 +30,10 @@ export default function App() {
           <Links />
         </head>
         <body>
-          <Outlet />
+          <MantineProvider>
+            <Notifications />
+            <Outlet />
+          </MantineProvider>
           <ScrollRestoration />
           <Scripts />
           <LiveReload />
