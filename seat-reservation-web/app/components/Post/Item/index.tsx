@@ -1,8 +1,15 @@
 import { Box, Space, Text, Title } from "@mantine/core";
 import React from "react";
+import { TPost } from "~/models/post.service";
+import { Link } from "@remix-run/react";
 
-export default function PostItem({ post }: { post: any }) {
-  const createAtDate = new Date(post.created_at);
+interface IPostItem {
+  post: TPost;
+}
+
+export default function PostItem({ post }: IPostItem) {
+  const createAtDate = new Date(post.created_at ?? "");
+  const commentCount = (post.comment as { count: number }[])[0].count;
   return (
     <Box
       sx={{
@@ -11,13 +18,21 @@ export default function PostItem({ post }: { post: any }) {
         userSelect: "element",
       }}
     >
-      <Title order={3}>{post.title}</Title>
+      <Link to={`/posts/${post.id}`} prefetch={"intent"}>
+        <Title order={3}>{post.title}</Title>
+      </Link>
       <Space h="xs" />
-      <Text lineClamp={3}>{post.content}</Text>
+      <Link to={`/posts/${post.id}`} prefetch={"intent"}>
+        <Text lineClamp={3}>
+          {post.content
+            ? post.content.replace(/<[^>]+>/g, "")
+            : "내용이 없습니다."}
+        </Text>
+      </Link>
       <Space h="xs" />
       <Box sx={{ display: "flex" }}>
         <Text size="xs" color="gray">
-          <>댓글 {post.contentCount}개</>
+          <>댓글 {commentCount}개</>
         </Text>
         <Space w="xs" />
         <Text size="xs" color="gray">

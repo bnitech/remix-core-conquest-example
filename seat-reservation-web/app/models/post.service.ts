@@ -5,7 +5,7 @@ export type TPost = {
   title: string | null;
   content: string | null;
   created_at: string | null;
-  comment: TComment | TComment[] | null | { count: number };
+  comment: TComment | TComment[] | null | { count: number }[];
 };
 
 export type TComment = {
@@ -47,8 +47,8 @@ export async function deleteComment(id: number) {
 export async function getPosts() {
   return supabase
     .from("post")
-    .select(`id, title, content, created_at, comment(count)`) // (comment 는 테이블 명이고 (count) 는 갯수를 의미합니다.
-    .order("created_at", { ascending: false }); // 생성일이 늦은 순으로 (가장 최신부터) 가져옵니다.
+    .select(`id, title, content, created_at, comment(count)`)
+    .order("created_at", { ascending: false });
 }
 
 export async function getPost(id: number) {
@@ -57,7 +57,7 @@ export async function getPost(id: number) {
     .select(`id, title, content, created_at, comment(*)`)
     .eq("id", id)
     .limit(1)
-    .single(); // 1개만 가져온다는 것을 Typing 처리하기 위함이기도 하고, 배열로 받지 않기 위함임
+    .single();
 }
 
 export async function createPost(title: string, content: string) {
