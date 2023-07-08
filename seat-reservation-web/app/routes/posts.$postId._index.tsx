@@ -1,8 +1,12 @@
 import {
   ActionIcon,
   Box,
+  Button,
+  Center,
   Divider,
   Menu,
+  Modal,
+  PasswordInput,
   Space,
   Text,
   Title,
@@ -13,17 +17,39 @@ import {
   IconPencil,
   IconTrash,
 } from "@tabler/icons-react";
-import { Link, useLoaderData } from "@remix-run/react";
+import { Form, Link, useActionData, useLoaderData } from "@remix-run/react";
 import PostView from "~/components/Post/Viewer";
 import CommentUpload from "~/components/Post/Comment/Upload";
 import List from "~/components/List";
 import CommentItem from "~/components/Post/Comment/item";
-import { getPost, TPost } from "~/models/post.service";
-import { json, LoaderFunction, redirect } from "@remix-run/node";
+import { deletePost, getPost, TPost } from "~/models/post.service";
+import {
+  ActionFunction,
+  json,
+  LoaderFunction,
+  redirect,
+} from "@remix-run/node";
 import { useEffect, useState } from "react";
+import qs from "qs";
+import * as process from "process";
+import { showNotification } from "@mantine/notifications";
 
 interface ILoaderData {
   post: TPost;
+}
+
+export enum InputType {
+  DELETE_POST = "0",
+}
+
+type InputData = {
+  action: InputType;
+  id?: number;
+  password: string;
+};
+
+interface IActionData {
+  message: TMessage;
 }
 
 export const loader: LoaderFunction = async ({ request, params }) => {
@@ -36,14 +62,55 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   }
 };
 
+export const action: ActionFunction = async ({ request, params }) => {
+  const postId = params.postId as string;
+  const data = qs.parse(await request.text()) as unknown as InputData;
+  switch (data.action) {
+    case InputType.DELETE_POST: {
+      if (data.password !== process.env.ADMIN_PASSWORD) {
+        return json<IActionData>({
+          message: {
+            title: "삭제 실패",
+            message: "비밀번호가 일치하지 않습니다.",
+            color: "red",
+          },
+        });
+      }
+      if (data.id) {
+        const post = await deletePost(parseInt(postId));
+        return redirect("/");
+      }
+    }
+  }
+};
+
 export default function PostId() {
   const loaderData = useLoaderData<ILoaderData>();
+  const actionData = useActionData<IActionData>();
   const [post, setPost] = useState<TPost>(loaderData.post);
+  const [deleteModalOpened, setDeleteModalOpened] = useState<boolean>(false);
+  const [message, setMessage] = useState<IActionData>();
+
   useEffect(() => {
-    if (post) {
-      setPost(loaderData.post);
-    }
+    setPost(loaderData.post);
   }, [loaderData.post]);
+
+  useEffect(() => {
+    if (actionData) {
+      setMessage(actionData);
+    }
+  }, [actionData]);
+
+  useEffect(() => {
+    if (message) {
+      showNotification({
+        title: message.message.title,
+        message: message.message.message,
+        color: message.message.color,
+      });
+    }
+  }, [message]);
+
   return (
     <Box sx={{ padding: "45px" }}>
       <Box
@@ -69,12 +136,56 @@ export default function PostId() {
             </ActionIcon>
           </Menu.Target>
           <Menu.Dropdown>
-            <Menu.Item icon={<IconPencil size={14} />}>글 수정하기</Menu.Item>
-            <Menu.Item color="red" icon={<IconTrash size={14} />}>
+            <Link to={`/posts/${post.id}/update`}>
+              <Menu.Item icon={<IconPencil size={14} />}>글 수정하기</Menu.Item>
+            </Link>
+            <Menu.Item
+              color="red"
+              icon={<IconTrash size={14} />}
+              onClick={() => setDeleteModalOpened(true)}
+            >
               글 삭제하기
             </Menu.Item>
           </Menu.Dropdown>
         </Menu>
+        <Modal
+          opened={deleteModalOpened}
+          onClose={() => setDeleteModalOpened(false)}
+          title={"글 삭제"}
+        >
+          <Text align={"center"}>
+            글을 삭제하기 위해서는 비밀번호를 입력해주세요
+          </Text>
+          <Space h="lg" />
+          <Form method={"post"}>
+            <input hidden={true} name={"id"} value={post.id} />
+            <Center>
+              <PasswordInput
+                sx={{ minWidth: "200px" }}
+                name={"password"}
+                placeholder={"관리자 비밀번호"}
+              />
+            </Center>
+            <Space h={"lg"} />
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <Button
+                variant={"default"}
+                onClick={() => setDeleteModalOpened(false)}
+              >
+                취소
+              </Button>
+              <Space w={"md"} />
+              <Button
+                color={"red"}
+                type={"submit"}
+                name={"action"}
+                value={InputType.DELETE_POST}
+              >
+                삭제
+              </Button>
+            </Box>
+          </Form>
+        </Modal>
       </Box>
       <Divider mt={20} mb={15} />
       <PostView content={post?.content ?? "(글 내용 없음)"} />
