@@ -40,6 +40,7 @@ interface ILoaderData {
 
 export enum InputType {
   DELETE_POST = "0",
+  EDIT_POST = "1"
 }
 
 type InputData = {
@@ -82,6 +83,14 @@ export const action: ActionFunction = async ({ request, params }) => {
       }
     }
   }
+
+  return json<IActionData>({
+    message: {
+      title: "처리 실패",
+      message: "알 수 없는 오류가 발생했습니다.",
+      color: "red",
+    },
+  });
 };
 
 export default function PostId() {
