@@ -22,7 +22,7 @@ import PostView from "~/components/Post/Viewer";
 import CommentUpload from "~/components/Post/Comment/Upload";
 import List from "~/components/List";
 import CommentItem from "~/components/Post/Comment/item";
-import { deletePost, getPost, TComment, TPost } from "~/models/post.service";
+import {createComment, deletePost, getPost, TComment, TPost} from "~/models/post.service";
 import {
   ActionFunction,
   json,
@@ -40,13 +40,17 @@ interface ILoaderData {
 
 export enum InputType {
   DELETE_POST = "0",
-  EDIT_POST = "1",
+  CREATE_COMMENT = "1",
 }
 
 type InputData = {
   action: InputType;
   id?: number;
   password: string;
+  commentId?: string;
+  commentContent?: string;
+  commentWriter?: string;
+  commentPassword?: string;
 };
 
 interface IActionData {
@@ -81,6 +85,19 @@ export const action: ActionFunction = async ({ request, params }) => {
         const post = await deletePost(parseInt(postId));
         return redirect("/");
       }
+      break;
+    }
+    case InputType.CREATE_COMMENT:{
+      if (data.commentContent && data.commentWriter && data.commentPassword) {
+        const comment = await createComment(
+            parseInt(postId),
+            data.commentWriter,
+            data.commentContent,
+            data.commentPassword
+        );
+        return redirect(`/posts/${postId}`);
+      }
+      break;
     }
   }
 
