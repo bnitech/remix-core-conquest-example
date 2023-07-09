@@ -22,7 +22,7 @@ import PostView from "~/components/Post/Viewer";
 import CommentUpload from "~/components/Post/Comment/Upload";
 import List from "~/components/List";
 import CommentItem from "~/components/Post/Comment/item";
-import { deletePost, getPost, TPost } from "~/models/post.service";
+import { deletePost, getPost, TComment, TPost } from "~/models/post.service";
 import {
   ActionFunction,
   json,
@@ -40,7 +40,7 @@ interface ILoaderData {
 
 export enum InputType {
   DELETE_POST = "0",
-  EDIT_POST = "1"
+  EDIT_POST = "1",
 }
 
 type InputData = {
@@ -200,38 +200,13 @@ export default function PostId() {
       <PostView content={post?.content ?? "(글 내용 없음)"} />
       <Divider mt={20} mb={20} />
       <Box>
-        <Text>댓글 2개</Text>
+        <Text>댓글 {(post.comment as TComment[]).length}개</Text>
         <Space h="lg" />
         <CommentUpload />
         <List>
-          <CommentItem
-            comment={{
-              writer: "작성자",
-              created_at: "2023-07-08",
-              content: "댓글 내용 1",
-            }}
-          />
-          <CommentItem
-            comment={{
-              writer: "작성자",
-              created_at: "2023-07-08",
-              content: "댓글 내용 2",
-            }}
-          />
-          <CommentItem
-            comment={{
-              writer: "작성자",
-              created_at: "2023-07-08",
-              content: "댓글 내용 3",
-            }}
-          />
-          <CommentItem
-            comment={{
-              writer: "작성자",
-              created_at: "2023-07-08",
-              content: "댓글 내용 4",
-            }}
-          />
+          {(post.comment as TComment[]).map((comment, i) => (
+            <CommentItem comment={comment} key={i} />
+          ))}
         </List>
       </Box>
     </Box>
