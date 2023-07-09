@@ -22,7 +22,16 @@ import PostView from "~/components/Post/Viewer";
 import CommentUpload from "~/components/Post/Comment/Upload";
 import List from "~/components/List";
 import CommentItem from "~/components/Post/Comment/item";
-import {createComment, deletePost, getPost, TComment, TPost} from "~/models/post.service";
+import {
+  createComment,
+  deleteComment,
+  deletePost,
+  getCommentPassword,
+  getPost,
+  TComment,
+  TPost,
+  updateComment,
+} from "~/models/post.service";
 import {
   ActionFunction,
   json,
@@ -41,6 +50,8 @@ interface ILoaderData {
 export enum InputType {
   DELETE_POST = "0",
   CREATE_COMMENT = "1",
+  UPDATED_COMMENT = "2",
+  DELETE_COMMENT = "3",
 }
 
 type InputData = {
@@ -87,17 +98,54 @@ export const action: ActionFunction = async ({ request, params }) => {
       }
       break;
     }
-    case InputType.CREATE_COMMENT:{
+    case InputType.CREATE_COMMENT: {
       if (data.commentContent && data.commentWriter && data.commentPassword) {
         const comment = await createComment(
-            parseInt(postId),
-            data.commentWriter,
-            data.commentContent,
-            data.commentPassword
+          parseInt(postId),
+          data.commentWriter,
+          data.commentContent,
+          data.commentPassword
         );
         return redirect(`/posts/${postId}`);
       }
       break;
+    }
+    case InputType.UPDATED_COMMENT: {
+      if (data.commentId && data.commentContent) {
+        const comment = await getCommentPassword(parseInt(data.commentId));
+        if (data.commentPassword !== comment.data?.password) {
+          return json<IActionData>({
+            message: {
+              title: "수정 실패",
+              message: "비밀번호가 일치하지 않습니다.",
+              color: "red",
+            },
+          });
+        }
+
+        await updateComment(parseInt(data.commentId), data.commentContent);
+        return redirect(`/posts/${postId}`);
+      }
+    }
+    case InputType.DELETE_COMMENT: {
+      if (data.commentId) {
+        const comment = await getCommentPassword(parseInt(data.commentId));
+        if (
+          data.commentPassword !== comment.data?.password &&
+          data.commentPassword !== process.env.ADMIN_PASSWORD
+        ) {
+          return json<IActionData>({
+            message: {
+              title: "삭제 실패",
+              message: "비밀번호가 일치하지 않습니다.",
+              color: "red",
+            },
+          });
+        } else {
+          await deleteComment(parseInt(data.commentId));
+          return redirect(`/posts/${postId}`);
+        }
+      }
     }
   }
 
@@ -174,45 +222,45 @@ export default function PostId() {
             </Menu.Item>
           </Menu.Dropdown>
         </Menu>
-        <Modal
+      </Box>
+      <Modal
           opened={deleteModalOpened}
           onClose={() => setDeleteModalOpened(false)}
           title={"글 삭제"}
-        >
-          <Text align={"center"}>
-            글을 삭제하기 위해서는 비밀번호를 입력해주세요
-          </Text>
-          <Space h="lg" />
-          <Form method={"post"}>
-            <input hidden={true} name={"id"} value={post.id} />
-            <Center>
-              <PasswordInput
+      >
+        <Text align={"center"}>
+          글을 삭제하기 위해서는 비밀번호를 입력해주세요
+        </Text>
+        <Space h="lg" />
+        <Form method={"post"}>
+          <input hidden={true} name={"id"} value={post.id} />
+          <Center>
+            <PasswordInput
                 sx={{ minWidth: "200px" }}
                 name={"password"}
                 placeholder={"관리자 비밀번호"}
-              />
-            </Center>
-            <Space h={"lg"} />
-            <Box sx={{ display: "flex", justifyContent: "center" }}>
-              <Button
+            />
+          </Center>
+          <Space h={"lg"} />
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Button
                 variant={"default"}
                 onClick={() => setDeleteModalOpened(false)}
-              >
-                취소
-              </Button>
-              <Space w={"md"} />
-              <Button
+            >
+              취소
+            </Button>
+            <Space w={"md"} />
+            <Button
                 color={"red"}
                 type={"submit"}
                 name={"action"}
                 value={InputType.DELETE_POST}
-              >
-                삭제
-              </Button>
-            </Box>
-          </Form>
-        </Modal>
-      </Box>
+            >
+              삭제
+            </Button>
+          </Box>
+        </Form>
+      </Modal>
       <Divider mt={20} mb={15} />
       <PostView content={post?.content ?? "(글 내용 없음)"} />
       <Divider mt={20} mb={20} />
